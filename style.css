@@ -1,0 +1,172 @@
+
+
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 0;
+  min-height: 100vh;
+  background-image: linear-gradient(to right, red , yellow);
+  font-family: "Garamond", "Courier New", monospace;
+  font-size: 50px;
+ 
+ 
+}
+  
+
+}
+
+img {
+  max-width: 100%;
+}
+
+p {
+  margin-bottom: 5px;
+}
+
+h3 {
+  margin: 0;
+}
+
+h5 {
+  margin: 10px 0;
+}
+34
+​
+35
+li {
+36
+  margin-bottom: 0;
+37
+}
+38
+​
+39
+.meal {
+40
+  margin: 20px 0;
+41
+}
+42
+​
+43
+.text-center {
+44
+  text-align: center;
+JS
+ 
+JS Options
+1
+const get_meal_btn = document.getElementById('get_meal');
+2
+const meal_container = document.getElementById('meal');
+3
+​
+4
+get_meal_btn.addEventListener('click', () => {
+5
+  fetch('https://www.themealdb.com/api/json/v1/1/random.php')
+6
+    .then(res => res.json())
+7
+    .then(res => {
+8
+    createMeal(res.meals[0]);
+9
+  });
+10
+});
+11
+​
+12
+const createMeal = (meal) => {
+13
+  const ingredients = [];
+14
+  // Get all ingredients from the object. Up to 20
+15
+  for(let i=1; i<=20; i++) {
+16
+    if(meal[`strIngredient${i}`]) {
+17
+      ingredients.push(`${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`)
+18
+    } else {
+19
+      // Stop if no more ingredients
+20
+      break;
+21
+    }
+22
+  }
+23
+  
+24
+  const newInnerHTML = `
+25
+    <div class="row">
+26
+      <div class="columns five">
+27
+        <img src="${meal.strMealThumb}" alt="Meal Image">
+28
+        ${meal.strCategory ? `<p><strong>Category:</strong> ${meal.strCategory}</p>` : ''}
+29
+        ${meal.strArea ? `<p><strong>Area:</strong> ${meal.strArea}</p>` : ''}
+30
+        ${meal.strTags ? `<p><strong>Tags:</strong> ${meal.strTags.split(',').join(', ')}</p>` : ''}
+31
+        <h5>Ingredients:</h5>
+32
+        <ul>
+33
+          ${ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
+34
+        </ul>
+35
+      </div>
+36
+      <div class="columns seven">
+37
+        <h4>${meal.strMeal}</h4>
+38
+        <p>${meal.strInstructions}</p>
+39
+      </div>
+40
+    </div>
+
+
+li {
+  margin-bottom: 0;
+}
+
+.meal {
+  margin: 20px 0;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.videoWrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 25px;
+  height: 0;
+}
+
+.videoWrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
